@@ -9,38 +9,16 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   :root[data-theme="dark"]{
-    --bg:#0a0a0a;
-    --panel:#141414;
-    --panel-2:#1a1a1a;
-    --border:#262626;
-    --border-soft:#1c1c1c;
-    --text:#eeeeee;
-    --dim:#8c8c8c;
-    --dim-2:#4d4d4d;
-    --amber:#f2a93c;
-    --amber-text:#0a0a0a;
-    --green:#35d07f;
-    --red:#ff5257;
-    --blue:#6ea8ff;
-    --ticker-bg:#000000;
-    --ticker-text:#c9c9c9;
+    --bg:#0a0a0a; --panel:#141414; --panel-2:#1a1a1a; --border:#262626; --border-soft:#1c1c1c;
+    --text:#eeeeee; --dim:#8c8c8c; --dim-2:#4d4d4d;
+    --amber:#f2a93c; --amber-text:#0a0a0a; --green:#35d07f; --red:#ff5257; --blue:#6ea8ff;
+    --ticker-bg:#000000; --ticker-text:#c9c9c9; --row-alt: rgba(255,255,255,0.015);
   }
   :root[data-theme="light"]{
-    --bg:#ffffff;
-    --panel:#f6f6f6;
-    --panel-2:#efefef;
-    --border:#e2e2e2;
-    --border-soft:#ececec;
-    --text:#171717;
-    --dim:#6b6b6b;
-    --dim-2:#a3a3a3;
-    --amber:#b8730f;
-    --amber-text:#ffffff;
-    --green:#1c8f57;
-    --red:#c8323b;
-    --blue:#2160c4;
-    --ticker-bg:#0a0a0a;
-    --ticker-text:#d4d4d4;
+    --bg:#ffffff; --panel:#f6f6f6; --panel-2:#efefef; --border:#e2e2e2; --border-soft:#ececec;
+    --text:#171717; --dim:#6b6b6b; --dim-2:#a3a3a3;
+    --amber:#b8730f; --amber-text:#ffffff; --green:#1c8f57; --red:#c8323b; --blue:#2160c4;
+    --ticker-bg:#0a0a0a; --ticker-text:#d4d4d4; --row-alt: rgba(0,0,0,0.015);
   }
   *{box-sizing:border-box; margin:0; padding:0;}
   html,body{background:var(--bg); color:var(--text); font-family:'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-size:14px; transition:background .2s, color .2s;}
@@ -49,19 +27,10 @@
   --heading-font: 'Helvetica Neue', Helvetica, Arial, sans-serif;
   .mono{ font-family:'IBM Plex Mono', monospace; }
 
-  /* ---------------- TICKER MARQUEE ---------------- */
-  .ticker-wrap{
-    background:var(--ticker-bg); border-bottom:1px solid var(--border); overflow:hidden;
-    white-space:nowrap; height:32px; display:flex; align-items:center;
-  }
-  .ticker-label{
-    flex-shrink:0; background:var(--amber); color:var(--amber-text); font-weight:700; font-size:10px;
-    letter-spacing:1.5px; padding:0 12px; height:32px; display:flex; align-items:center; z-index:2;
-    font-family:'IBM Plex Mono', monospace;
-  }
-  .ticker-track{
-    display:flex; gap:40px; animation:scroll-left 55s linear infinite; padding-left:24px;
-  }
+  /* ---------------- TICKER ---------------- */
+  .ticker-wrap{ background:var(--ticker-bg); border-bottom:1px solid var(--border); overflow:hidden; white-space:nowrap; height:32px; display:flex; align-items:center; }
+  .ticker-label{ flex-shrink:0; background:var(--amber); color:var(--amber-text); font-weight:700; font-size:10px; letter-spacing:1.5px; padding:0 12px; height:32px; display:flex; align-items:center; z-index:2; font-family:'IBM Plex Mono', monospace; }
+  .ticker-track{ display:flex; gap:40px; animation:scroll-left 55s linear infinite; padding-left:24px; }
   .ticker-wrap:hover .ticker-track{ animation-play-state:paused; }
   @keyframes scroll-left{ from{ transform:translateX(0); } to{ transform:translateX(-50%); } }
   .ticker-item{ font-size:12px; color:var(--ticker-text); display:flex; align-items:center; gap:8px; }
@@ -69,117 +38,106 @@
   .ticker-item.no-impact .impact-dot{ background:var(--dim-2); }
 
   /* ---------------- HEADER ---------------- */
-  header{
-    background:var(--panel); border-bottom:1px solid var(--border);
-    position:sticky; top:0; z-index:50;
-  }
-  .topbar{
-    display:flex; align-items:center; gap:16px; padding:16px 24px; flex-wrap:wrap;
-    border-bottom:1px solid var(--border-soft);
-  }
+  header{ background:var(--panel); border-bottom:1px solid var(--border); position:sticky; top:0; z-index:50; }
+  .topbar{ display:flex; align-items:center; gap:16px; padding:16px 24px; flex-wrap:wrap; border-bottom:1px solid var(--border-soft); }
   .brand{ display:flex; align-items:center; gap:11px; }
-  .brand .logo{
-    width:44px; height:32px; border:1.5px solid var(--amber); display:flex; align-items:center;
-    justify-content:center; font-family:'IBM Plex Mono', monospace; font-weight:600; font-size:10px;
-    letter-spacing:1px; color:var(--amber); flex-shrink:0;
-  }
+  .brand .logo{ width:44px; height:32px; border:1.5px solid var(--amber); display:flex; align-items:center; justify-content:center; font-family:'IBM Plex Mono', monospace; font-weight:600; font-size:10px; letter-spacing:1px; color:var(--amber); flex-shrink:0; }
   .brand .name{ font-family:var(--heading-font); font-weight:700; font-size:19px; letter-spacing:0.2px; }
   .brand .sub{ font-size:9.5px; color:var(--dim); letter-spacing:2px; text-transform:uppercase; margin-top:1px; font-family:'IBM Plex Mono', monospace;}
-
-  .theme-toggle{
-    background:var(--panel-2); border:1px solid var(--border); color:var(--text);
-    width:34px; height:34px; display:flex; align-items:center; justify-content:center;
-    cursor:pointer; font-size:15px; flex-shrink:0;
-  }
+  .theme-toggle{ background:var(--panel-2); border:1px solid var(--border); color:var(--text); width:34px; height:34px; display:flex; align-items:center; justify-content:center; cursor:pointer; font-size:15px; flex-shrink:0; }
   .theme-toggle:hover{ border-color:var(--amber); }
-
-  .live-pill{
-    display:flex; align-items:center; gap:7px; font-size:11px; letter-spacing:0.3px; color:var(--dim);
-    margin-left:auto;
-  }
+  .live-pill{ display:flex; align-items:center; gap:7px; font-size:11px; letter-spacing:0.3px; color:var(--dim); }
   .live-pill .dot{ width:7px; height:7px; border-radius:50%; background:var(--green); box-shadow:0 0 8px var(--green); animation:pulse 1.6s infinite; }
   @keyframes pulse{ 0%,100%{opacity:1;} 50%{opacity:0.3;} }
+  select.tz-select, select.sub-select{ background:var(--panel-2); border:1px solid var(--border); color:var(--text); font-family:'Inter', sans-serif; font-size:12.5px; padding:8px 10px; cursor:pointer; }
+  select.tz-select{ min-width:210px; }
+  select:focus{ outline:1px solid var(--amber); }
+  .right-group{ display:flex; align-items:center; gap:16px; margin-left:auto; flex-wrap:wrap; }
+  .lang-group{ display:flex; align-items:center; gap:8px; }
+  .lang-group .lg-label{ font-size:10.5px; letter-spacing:1px; text-transform:uppercase; color:var(--dim); }
+  .chip-row{ display:flex; align-items:center; gap:6px; flex-wrap:wrap; }
+  .chip-row .cr-label{ font-size:10.5px; letter-spacing:0.5px; color:var(--dim); margin-right:2px; }
+  .chip-btn{ background:transparent; border:1px solid var(--border); color:var(--dim); font-family:'IBM Plex Mono', monospace; font-size:11px; font-weight:600; letter-spacing:0.5px; padding:6px 10px; cursor:pointer; transition:all .15s; }
+  .chip-btn:hover{ border-color:var(--green); color:var(--text); }
+  .chip-btn.active{ background:var(--green); color:#06210f; border-color:var(--green); }
 
-  .tz-select{
-    background:var(--panel-2); border:1px solid var(--border); color:var(--text);
-    font-family:'Inter', sans-serif; font-size:12.5px; padding:8px 10px; cursor:pointer; min-width:210px;
-  }
-  .tz-select:focus{ outline:1px solid var(--amber); }
+  /* ---------------- TU HORA ---------------- */
+  .you-bar{ display:flex; align-items:center; gap:14px; padding:12px 24px; }
+  .you-bar .you-label{ font-size:10.5px; letter-spacing:1.5px; text-transform:uppercase; color:var(--dim); }
+  .you-bar .you-clock{ font-family:'IBM Plex Mono', monospace; font-size:22px; font-weight:600; color:var(--amber); font-variant-numeric:tabular-nums; }
+  .you-bar .you-date{ font-size:12px; color:var(--dim); }
+  .you-bar .you-zone{ font-size:11px; color:var(--dim-2); margin-left:auto; }
 
-  /* ---------------- SESSION STRIP ---------------- */
-  .sessions{ display:flex; overflow-x:auto; }
-  .session{
-    flex:1; min-width:150px; padding:11px 18px; border-right:1px solid var(--border-soft);
-    display:flex; flex-direction:column; gap:3px; color:var(--dim); transition:background .2s;
-  }
-  .session:last-child{ border-right:none; }
-  .session .row1{ display:flex; align-items:center; gap:7px; font-size:10.5px; letter-spacing:0.3px; font-weight:500; }
-  .session .sdot{ width:6px; height:6px; border-radius:50%; background:var(--dim-2); flex-shrink:0; }
-  .session .clock{ font-family:'IBM Plex Mono', monospace; font-size:16px; font-weight:600; color:var(--dim-2); font-variant-numeric:tabular-nums; }
-  .session.active{ background:var(--panel-2); }
-  .session.active .clock{ color:var(--text); }
-  .session.active .row1{ color:var(--text); }
-  .session[data-s="asia"].active .sdot{ background:var(--blue); box-shadow:0 0 6px var(--blue); }
-  .session[data-s="london"].active .sdot{ background:var(--green); box-shadow:0 0 6px var(--green); }
-  .session[data-s="ny"].active .sdot{ background:var(--red); box-shadow:0 0 6px var(--red); }
-  .session[data-s="you"] .sdot{ background:var(--amber); }
-  .session[data-s="you"] .row1{ color:var(--amber); }
-  .session[data-s="you"] .clock{ color:var(--amber); }
+  /* ---------------- TABS ---------------- */
+  .tabs{ display:flex; max-width:1240px; margin:0 auto; border-bottom:1px solid var(--border); }
+  .tab-btn{ background:transparent; border:none; color:var(--dim); font-family:'Inter', sans-serif; font-size:13px; font-weight:600;
+    padding:14px 22px; cursor:pointer; border-bottom:2px solid transparent; margin-bottom:-1px; }
+  .tab-btn:hover{ color:var(--text); }
+  .tab-btn.active{ color:var(--amber); border-bottom-color:var(--amber); }
+  .view{ display:none; }
+  .view.active{ display:block; }
 
   /* ---------------- LAYOUT ---------------- */
   .layout{ max-width:1240px; margin:0 auto; display:grid; grid-template-columns:1fr 300px; gap:0; }
   .main-col{ border-right:1px solid var(--border); min-width:0; }
   .side-col{ padding:20px; display:flex; flex-direction:column; gap:22px; }
 
-  .controls{
-    display:flex; align-items:center; gap:8px; padding:16px 22px; border-bottom:1px solid var(--border);
-    flex-wrap:wrap;
-  }
-  .filter-btn{
-    background:transparent; border:1px solid var(--border); color:var(--dim);
-    font-family:'Inter', sans-serif; font-size:12px; font-weight:500; letter-spacing:0.2px;
-    padding:8px 14px; cursor:pointer; transition:all .15s;
-  }
+  .controls{ display:flex; align-items:center; gap:8px; padding:16px 22px; border-bottom:1px solid var(--border); flex-wrap:wrap; }
+  .filter-btn{ background:transparent; border:1px solid var(--border); color:var(--dim); font-family:'Inter', sans-serif; font-size:12px; font-weight:500; letter-spacing:0.2px; padding:8px 14px; cursor:pointer; transition:all .15s; }
   .filter-btn:hover{ border-color:var(--amber); color:var(--text); }
   .filter-btn.active{ background:var(--amber); color:var(--amber-text); border-color:var(--amber); font-weight:600; }
-  .refresh-btn{
-    margin-left:auto; background:transparent; border:1px solid var(--border); color:var(--text);
-    padding:8px 12px; cursor:pointer; font-size:12.5px; line-height:1; font-family:'Inter', sans-serif;
-  }
+  .refresh-btn{ margin-left:auto; background:transparent; border:1px solid var(--border); color:var(--text); padding:8px 12px; cursor:pointer; font-size:12.5px; line-height:1; font-family:'Inter', sans-serif; }
   .refresh-btn:hover{ border-color:var(--amber); color:var(--amber); }
 
   .empty, .loading{ text-align:center; padding:80px 20px; color:var(--dim); font-size:12px; letter-spacing:0.3px; }
 
-  .item{
-    display:flex; gap:18px; padding:20px 22px; border-bottom:1px solid var(--border-soft);
-    text-decoration:none; color:inherit; transition:background .15s;
-  }
+  /* ---------------- NEWS ITEMS ---------------- */
+  .item{ display:flex; gap:18px; padding:20px 22px; border-bottom:1px solid var(--border-soft); text-decoration:none; color:inherit; transition:background .15s; }
   .item:hover{ background:var(--panel); }
-  .item .timecol{
-    width:80px; flex-shrink:0; font-size:11px; color:var(--dim); padding-top:4px; text-align:right;
-    font-family:'IBM Plex Mono', monospace;
-  }
+  .item .timecol{ width:86px; flex-shrink:0; font-size:11px; color:var(--dim); padding-top:4px; text-align:right; font-family:'IBM Plex Mono', monospace; }
   .item .timecol .abs{ display:block; color:var(--dim-2); font-size:9.5px; margin-top:3px; }
+  .item .timecol .daybadge{ display:inline-block; margin-top:4px; font-size:8.5px; letter-spacing:0.5px; text-transform:uppercase; color:var(--amber); border:1px solid var(--amber); padding:1px 5px; }
   .item .body{ flex:1; min-width:0; }
   .item .meta{ display:flex; align-items:center; gap:8px; margin-bottom:8px; flex-wrap:wrap; }
-  .source{
-    font-size:9.5px; letter-spacing:1px; text-transform:uppercase; color:var(--blue);
-    border:1px solid var(--blue); opacity:0.85; padding:3px 8px; font-family:'IBM Plex Mono', monospace;
-  }
-  .impact{
-    font-size:9.5px; letter-spacing:1px; text-transform:uppercase; color:var(--red);
-    border:1px solid var(--red); padding:3px 8px; font-weight:600; font-family:'IBM Plex Mono', monospace;
-  }
+  .source{ font-size:9.5px; letter-spacing:1px; text-transform:uppercase; color:var(--blue); border:1px solid var(--blue); opacity:0.85; padding:3px 8px; font-family:'IBM Plex Mono', monospace; }
+  .impact{ font-size:9.5px; letter-spacing:1px; text-transform:uppercase; color:var(--red); border:1px solid var(--red); padding:3px 8px; font-weight:600; font-family:'IBM Plex Mono', monospace; }
+  .currency-chip{ font-size:9.5px; letter-spacing:1px; color:var(--green); border:1px solid var(--green); padding:3px 8px; font-family:'IBM Plex Mono', monospace; }
+  .lang-chip{ font-size:9.5px; letter-spacing:1px; text-transform:uppercase; color:var(--dim); border:1px solid var(--border); padding:3px 8px; font-family:'IBM Plex Mono', monospace; }
   .headline{ font-family:'Inter', sans-serif; font-size:15.5px; line-height:1.5; font-weight:500; color:var(--text); }
   .item:hover .headline{ color:var(--amber); }
   .headline mark{ background:transparent; color:var(--red); font-weight:700; }
 
+  /* ---------------- CALENDAR (estilo tabla, tipo Forex Factory) ---------------- */
+  .cal-week-nav{ display:flex; align-items:center; gap:10px; padding:14px 22px; border-bottom:1px solid var(--border); }
+  .cal-week-nav button{ background:var(--panel-2); border:1px solid var(--border); color:var(--text); width:30px; height:30px; cursor:pointer; font-size:14px; }
+  .cal-week-nav button:hover{ border-color:var(--amber); color:var(--amber); }
+  .cal-week-nav .cal-week-label{ font-weight:600; font-size:13.5px; }
+  .cal-group-header{ padding:9px 22px; font-size:11px; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:var(--dim); background:var(--panel-2); border-bottom:1px solid var(--border); border-top:1px solid var(--border); }
+  .cal-table{ display:flex; flex-direction:column; }
+  .cal-row{ display:grid; grid-template-columns:64px 30px 46px 1fr 96px; align-items:center; gap:10px; padding:9px 22px; border-bottom:1px solid var(--border-soft); transition:background .15s; }
+  .cal-row:nth-child(even){ background:var(--row-alt); }
+  .cal-row:hover{ background:var(--panel); }
+  .cal-row.cal-live{ background:rgba(255,82,87,0.08); animation:live-glow 1.8s infinite; }
+  @keyframes live-glow{ 0%,100%{ background:rgba(255,82,87,0.05);} 50%{ background:rgba(255,82,87,0.15);} }
+  .cal-row.cal-past .cal-time, .cal-row.cal-past .cal-title{ color:var(--dim-2); }
+  .cal-row.cal-past .cal-impact-sq{ opacity:0.35; }
+  .cal-time{ font-family:'IBM Plex Mono', monospace; font-size:12.5px; color:var(--text); text-align:right; }
+  .cal-next-marker{ width:8px; height:8px; border-radius:50%; background:var(--green); box-shadow:0 0 6px var(--green); justify-self:center; }
+  .cal-impact-sq{ width:12px; height:12px; border-radius:2px; background:var(--dim-2); justify-self:center; }
+  .cal-impact-sq.high{ background:var(--red); }
+  .cal-impact-sq.medium{ background:var(--amber); }
+  .cal-impact-sq.low{ background:var(--dim-2); }
+  .cal-currency{ font-family:'IBM Plex Mono', monospace; font-size:11px; color:var(--blue); font-weight:600; }
+  .cal-body{ min-width:0; }
+  .cal-title{ font-size:13.5px; font-weight:500; color:var(--text); }
+  .cal-sub{ font-size:10.5px; color:var(--dim); display:flex; gap:12px; margin-top:2px; flex-wrap:wrap; }
+  .cal-badge{ justify-self:end; font-size:9.5px; font-weight:700; letter-spacing:1px; text-transform:uppercase; padding:4px 8px; font-family:'IBM Plex Mono', monospace; white-space:nowrap; }
+  .cal-badge.live{ background:var(--red); color:#fff; animation:pulse 1.4s infinite; }
+  .cal-badge.soon{ border:1px solid var(--amber); color:var(--amber); }
+
   /* ---------------- SIDEBAR ---------------- */
   .panel{ border:1px solid var(--border); background:var(--panel); }
-  .panel h3{
-    font-size:10px; letter-spacing:1.5px; text-transform:uppercase; color:var(--dim); font-weight:600;
-    padding:12px 14px; border-bottom:1px solid var(--border); font-family:'Inter', sans-serif;
-  }
+  .panel h3{ font-size:10px; letter-spacing:1.5px; text-transform:uppercase; color:var(--dim); font-weight:600; padding:12px 14px; border-bottom:1px solid var(--border); font-family:'Inter', sans-serif; }
   .panel-body{ padding:14px; display:flex; flex-direction:column; gap:10px; }
   .stat-row{ display:flex; justify-content:space-between; align-items:center; font-size:12.5px; }
   .stat-row .val{ font-family:'IBM Plex Mono', monospace; font-weight:600; color:var(--text); }
@@ -192,10 +150,7 @@
   .about-text{ font-size:12px; color:var(--dim); line-height:1.7; }
   .about-text b{ color:var(--text); }
 
-  footer{
-    max-width:1240px; margin:0 auto; padding:18px 24px; color:var(--dim-2); font-size:10.5px;
-    border-top:1px solid var(--border); line-height:1.7;
-  }
+  footer{ max-width:1240px; margin:0 auto; padding:18px 24px; color:var(--dim-2); font-size:10.5px; border-top:1px solid var(--border); line-height:1.7; }
 
   @media (max-width:860px){
     .layout{ grid-template-columns:1fr; }
@@ -203,12 +158,14 @@
     .side-col{ border-top:1px solid var(--border); }
   }
   @media (max-width:600px){
-    .sessions{ flex-wrap:wrap; }
-    .session{ min-width:50%; }
     .item{ padding:16px; }
     .headline{ font-size:14.5px; }
-    .tz-select{ min-width:0; flex:1; }
+    select.tz-select{ min-width:0; flex:1; }
     .topbar{ padding:14px 16px; }
+    .you-bar{ padding:10px 16px; flex-wrap:wrap; }
+    .cal-row{ grid-template-columns:50px 22px 36px 1fr; }
+    .cal-badge{ grid-column:2 / 5; justify-self:start; margin-top:4px; }
+    .cal-sub{ flex-direction:column; gap:2px; }
   }
 </style>
 </head>
@@ -230,21 +187,47 @@
     </div>
     <button class="theme-toggle" id="theme-toggle" title="Cambiar modo claro/oscuro">🌙</button>
     <select class="tz-select" id="tz-select" title="Elige tu zona horaria"></select>
-    <div class="live-pill"><span class="dot"></span>En vivo · <span id="updated-ago">—</span></div>
+    <div class="right-group">
+      <div class="lang-group">
+        <span class="lg-label">Idiomas</span>
+        <select class="sub-select" id="lang-select">
+          <option value="all">Todos</option>
+          <option value="es">Español</option>
+          <option value="en">Inglés</option>
+        </select>
+      </div>
+      <div class="live-pill"><span class="dot"></span>En vivo · <span id="updated-ago">—</span></div>
+    </div>
   </div>
-  <div class="sessions" id="sessions">
-    <div class="session" data-s="asia"><div class="row1"><span class="sdot"></span>Asia / Tokio</div><div class="clock" id="clk-asia">—</div></div>
-    <div class="session" data-s="london"><div class="row1"><span class="sdot"></span>Londres</div><div class="clock" id="clk-london">—</div></div>
-    <div class="session" data-s="ny"><div class="row1"><span class="sdot"></span>Nueva York</div><div class="clock" id="clk-ny">—</div></div>
-    <div class="session active" data-s="you"><div class="row1"><span class="sdot"></span>Tu hora</div><div class="clock" id="clk-you">—</div></div>
+  <div class="you-bar">
+    <span class="you-label">Tu hora</span>
+    <span class="you-clock" id="clk-you">—</span>
+    <span class="you-date" id="clk-you-date">—</span>
+    <span class="you-zone" id="clk-you-zone"></span>
+  </div>
+  <div class="tabs">
+    <button class="tab-btn active" data-tab="news">Muro de noticias</button>
+    <button class="tab-btn" data-tab="calendar">Calendario económico</button>
   </div>
 </header>
 
-<div class="layout">
+<!-- ---------------- VISTA: NOTICIAS ---------------- -->
+<div class="layout view active" id="view-news">
   <div class="main-col">
     <div class="controls">
-      <button class="filter-btn active" data-filter="all">Todo</button>
-      <button class="filter-btn" data-filter="impact">Solo alto impacto</button>
+      <button class="filter-btn" id="btn-impact">Alto impacto</button>
+      <button class="filter-btn" id="btn-today">Solo hoy</button>
+      <div class="chip-row" id="currency-chips">
+        <span class="cr-label">Moneda:</span>
+        <button class="chip-btn" data-currency="USD">USD</button>
+        <button class="chip-btn" data-currency="EUR">EUR</button>
+        <button class="chip-btn" data-currency="GBP">GBP</button>
+        <button class="chip-btn" data-currency="JPY">JPY</button>
+        <button class="chip-btn" data-currency="AUD">AUD</button>
+        <button class="chip-btn" data-currency="CAD">CAD</button>
+        <button class="chip-btn" data-currency="CHF">CHF</button>
+        <button class="chip-btn" data-currency="CNY">CNY</button>
+      </div>
       <button class="refresh-btn" id="manual-refresh" title="Actualizar ahora">⟳ Actualizar</button>
     </div>
     <main id="wall">
@@ -261,19 +244,76 @@
         <div class="stat-row"><span>Próxima actualización</span><span class="val" id="stat-refresh">—</span></div>
       </div>
     </div>
-
     <div class="panel">
       <h3>Fuentes</h3>
       <div class="panel-body feed-health" id="feed-health">
         <div class="feed-row"><span><span class="dot ok"></span>Cargando…</span></div>
       </div>
     </div>
-
     <div class="panel">
       <h3>Acerca de</h3>
       <div class="panel-body">
         <div class="about-text">
-          Agrega titulares públicos de <b>Investing.com, Yahoo Finance, CNBC, MarketWatch</b> y la <b>Reserva Federal</b>. Las noticias marcadas en rojo mencionan temas que históricamente mueven el NQ/ES (tasas, inflación, empleo, geopolítica). No es asesoría financiera — confirma siempre en la fuente original.
+          Agrega titulares públicos de Investing.com (EN/ES), Yahoo Finance, CNBC, MarketWatch y la Reserva Federal. Los filtros de moneda e idioma son detección automática, no etiquetas oficiales del medio. No es asesoría financiera.
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ---------------- VISTA: CALENDARIO ---------------- -->
+<div class="layout view" id="view-calendar">
+  <div class="main-col">
+    <div class="cal-week-nav">
+      <button id="cal-prev-week" title="Semana anterior">‹</button>
+      <span class="cal-week-label" id="cal-week-label">Semana actual</span>
+      <button id="cal-next-week" title="Semana siguiente">›</button>
+    </div>
+    <div class="controls">
+      <button class="filter-btn active" data-cal-filter="all">Todos</button>
+      <button class="filter-btn" data-cal-filter="past">Ya pasaron</button>
+      <button class="filter-btn" data-cal-filter="upcoming">Próximos</button>
+      <div class="chip-row" id="cal-currency-chips">
+        <span class="cr-label">Moneda:</span>
+        <button class="chip-btn" data-currency="USD">USD</button>
+        <button class="chip-btn" data-currency="EUR">EUR</button>
+        <button class="chip-btn" data-currency="GBP">GBP</button>
+        <button class="chip-btn" data-currency="JPY">JPY</button>
+        <button class="chip-btn" data-currency="AUD">AUD</button>
+        <button class="chip-btn" data-currency="CAD">CAD</button>
+        <button class="chip-btn" data-currency="CHF">CHF</button>
+        <button class="chip-btn" data-currency="NZD">NZD</button>
+        <button class="chip-btn" data-currency="CNY">CNY</button>
+      </div>
+      <button class="refresh-btn" id="cal-refresh" title="Actualizar ahora">⟳ Actualizar</button>
+    </div>
+    <main id="cal-wall">
+      <div class="loading">CARGANDO CALENDARIO…</div>
+    </main>
+  </div>
+
+  <div class="side-col">
+    <div class="panel">
+      <h3>Estado del calendario</h3>
+      <div class="panel-body">
+        <div class="stat-row"><span>Eventos esta semana</span><span class="val" id="cal-stat-count">—</span></div>
+        <div class="stat-row"><span>Próxima actualización</span><span class="val" id="cal-stat-refresh">—</span></div>
+      </div>
+    </div>
+    <div class="panel">
+      <h3>Leyenda</h3>
+      <div class="panel-body">
+        <div class="stat-row"><span><span class="cal-impact-sq high" style="display:inline-block; margin-right:8px;"></span>Alto impacto</span></div>
+        <div class="stat-row"><span><span class="cal-impact-sq medium" style="display:inline-block; margin-right:8px;"></span>Impacto medio</span></div>
+        <div class="stat-row"><span><span class="cal-impact-sq low" style="display:inline-block; margin-right:8px;"></span>Bajo impacto</span></div>
+        <div class="stat-row"><span><span class="cal-next-marker" style="display:inline-block; margin-right:8px;"></span>Próximo evento</span></div>
+      </div>
+    </div>
+    <div class="panel">
+      <h3>Acerca de</h3>
+      <div class="panel-body">
+        <div class="about-text">
+          Calendario económico semanal de acceso público (mismo formato que usan los indicadores de Forex Factory para MetaTrader). Se actualiza cada 5 minutos para evitar bloqueos por exceso de peticiones.
         </div>
       </div>
     </div>
@@ -281,18 +321,19 @@
 </div>
 
 <footer>
-  NQ PROJECT · Terminal de noticias construida sobre RSS públicos vía rss2json.com · Uso personal / educativo.
+  NQ PROJECT · Terminal de noticias y calendario económico construidos sobre datos públicos · Uso personal / educativo.
 </footer>
 
 <script>
-// ---------------- CONFIG ----------------
+// ==================== CONFIG ====================
 const FEEDS = [
-  { name: "Investing.com", url: "https://www.investing.com/rss/news.rss" },
-  { name: "Yahoo Finance", url: "https://finance.yahoo.com/news/rssindex" },
-  { name: "CNBC Top News", url: "https://www.cnbc.com/id/100003114/device/rss/rss.html" },
-  { name: "CNBC Markets", url: "https://www.cnbc.com/id/20910258/device/rss/rss.html" },
-  { name: "MarketWatch", url: "https://feeds.marketwatch.com/marketwatch/topstories/" },
-  { name: "Federal Reserve", url: "https://www.federalreserve.gov/feeds/press_all.xml" },
+  { name: "Investing.com", url: "https://www.investing.com/rss/news.rss", lang: "en" },
+  { name: "Yahoo Finance", url: "https://finance.yahoo.com/news/rssindex", lang: "en" },
+  { name: "CNBC Top News", url: "https://www.cnbc.com/id/100003114/device/rss/rss.html", lang: "en" },
+  { name: "CNBC Markets", url: "https://www.cnbc.com/id/20910258/device/rss/rss.html", lang: "en" },
+  { name: "MarketWatch", url: "https://feeds.marketwatch.com/marketwatch/topstories/", lang: "en" },
+  { name: "Federal Reserve", url: "https://www.federalreserve.gov/feeds/press_all.xml", lang: "en" },
+  { name: "Investing.com ES", url: "https://es.investing.com/rss/news.rss", lang: "es" },
 ];
 
 const IMPACT_KEYWORDS = [
@@ -300,11 +341,31 @@ const IMPACT_KEYWORDS = [
   "ppi","nonfarm","jobs report","nfp","gdp","recession","tariff","trade war",
   "shutdown","debt ceiling","treasury","yield","opec","oil price","war","geopolitical",
   "ecb","boj","sec","earnings beat","earnings miss","crash","selloff","sell-off",
-  "rally","stimulus","layoffs","bankruptcy","default","crisis"
+  "rally","stimulus","layoffs","bankruptcy","default","crisis",
+  "inflación","recesión","aranceles","desempleo","tipos de interés","tasas de interés","pib"
 ];
 
+const CURRENCY_KEYWORDS = {
+  USD: ["fed","federal reserve","powell","u.s. dollar","usd","dow jones","nasdaq","s&p 500","treasury","nonfarm","non-farm","white house","washington","dollar index","reserva federal","dólar estadounidense"],
+  EUR: ["ecb","european central bank","eurozone","euro area","euro","lagarde","eu commission","brussels","bce","zona euro"],
+  GBP: ["bank of england"," boe ","pound sterling","british pound","uk inflation","downing street","gilts","libra esterlina"],
+  JPY: ["bank of japan"," boj ","yen","tokyo","nikkei","ueda"],
+  CNY: ["china","yuan","renminbi","pboc","beijing","shanghai"],
+  AUD: ["rba","reserve bank of australia","australian dollar","aussie","dólar australiano"],
+  CAD: ["bank of canada"," boc ","canadian dollar","loonie","dólar canadiense"],
+  CHF: ["swiss national bank"," snb ","swiss franc","zurich","franco suizo"],
+};
+
 const REFRESH_SECONDS = 120;
+const CAL_REFRESH_SECONDS = 300;
 const RSS2JSON = "https://api.rss2json.com/v1/api.json?rss_url=";
+const CALENDAR_URLS = {
+  last: "https://nfs.faireconomy.media/ff_calendar_lastweek.json",
+  this: "https://nfs.faireconomy.media/ff_calendar_thisweek.json",
+  next: "https://nfs.faireconomy.media/ff_calendar_nextweek.json",
+};
+const CAL_WEEK_LABELS = { last: "Semana pasada", this: "Semana actual", next: "Semana siguiente" };
+const CORS_PROXY = "https://api.allorigins.win/raw?url=";
 
 const COMMON_TIMEZONES = [
   "America/Bogota","America/New_York","America/Chicago","America/Denver","America/Los_Angeles",
@@ -314,14 +375,22 @@ const COMMON_TIMEZONES = [
   "Australia/Sydney","Pacific/Auckland","UTC"
 ];
 
+// ==================== STATE ====================
 let allItems = [];
-let currentFilter = "all";
-let lastUpdate = null;
-let countdown = REFRESH_SECONDS;
+let allCalEvents = [];
+let filterImpact = false;
+let filterToday = false;
+let filterCurrencies = new Set();
+let filterLang = "all";
+let calFilterStatus = "all";
+let calFilterCurrencies = new Set();
+let calWeek = "this";
+let lastUpdate = null, calLastUpdate = null;
+let countdown = REFRESH_SECONDS, calCountdown = CAL_REFRESH_SECONDS;
 let userTZ = localStorage.getItem("nqp_tz") || Intl.DateTimeFormat().resolvedOptions().timeZone || "America/Bogota";
 let feedStatus = {};
 
-// ---------------- THEME ----------------
+// ==================== THEME ====================
 function applyTheme(theme){
   document.documentElement.setAttribute('data-theme', theme);
   document.getElementById('theme-toggle').textContent = theme === 'dark' ? '🌙' : '☀️';
@@ -337,66 +406,78 @@ function initTheme(){
   });
 }
 
-// ---------------- TIMEZONE SELECT ----------------
+// ==================== TABS ====================
+function initTabs(){
+  document.querySelectorAll('.tab-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById('view-' + btn.dataset.tab).classList.add('active');
+    });
+  });
+}
+
+// ==================== TIMEZONE / TU HORA ====================
 function populateTZSelect(){
   const sel = document.getElementById('tz-select');
   let zones = COMMON_TIMEZONES;
-  try{
-    if(typeof Intl.supportedValuesOf === "function"){
-      zones = Intl.supportedValuesOf('timeZone');
-    }
-  }catch(e){}
+  try{ if(typeof Intl.supportedValuesOf === "function") zones = Intl.supportedValuesOf('timeZone'); }catch(e){}
   if(!zones.includes(userTZ)) zones = [userTZ, ...zones];
   sel.innerHTML = zones.map(z => `<option value="${z}" ${z===userTZ?"selected":""}>${z.replace(/_/g," ")}</option>`).join("");
   sel.addEventListener('change', () => {
     userTZ = sel.value;
     localStorage.setItem("nqp_tz", userTZ);
-    updateClocks();
-    render();
+    updateClocks(); render(); renderCalendar();
   });
 }
-
-// ---------------- CLOCKS / SESSIONS ----------------
-function fmtTime(tz){
-  return new Intl.DateTimeFormat('es-CO', {hour:'2-digit', minute:'2-digit', hour12:false, timeZone: tz}).format(new Date());
-}
 function updateClocks(){
-  document.getElementById('clk-asia').textContent = fmtTime('Asia/Tokyo');
-  document.getElementById('clk-london').textContent = fmtTime('Europe/London');
-  document.getElementById('clk-ny').textContent = fmtTime('America/New_York');
-  document.getElementById('clk-you').textContent = fmtTime(userTZ);
-
-  const utcH = new Date().getUTCHours();
-  setActive('asia', utcH >= 0 && utcH < 9);
-  setActive('london', utcH >= 8 && utcH < 17);
-  setActive('ny', utcH >= 13 && utcH < 22);
-}
-function setActive(s, isActive){
-  document.querySelector('.session[data-s="'+s+'"]').classList.toggle('active', isActive);
+  const now = new Date();
+  document.getElementById('clk-you').textContent = new Intl.DateTimeFormat('es-CO', {hour:'2-digit', minute:'2-digit', second:'2-digit', hour12:false, timeZone: userTZ}).format(now);
+  document.getElementById('clk-you-date').textContent = new Intl.DateTimeFormat('es-CO', {weekday:'long', day:'2-digit', month:'long', timeZone: userTZ}).format(now);
+  document.getElementById('clk-you-zone').textContent = userTZ.replace(/_/g," ");
 }
 
-// ---------------- FETCH ----------------
+// ==================== DATE HELPERS ====================
+function dayKey(date, tz){ return new Intl.DateTimeFormat('en-CA', {timeZone:tz, year:'numeric', month:'2-digit', day:'2-digit'}).format(date); }
+function dateBadgeShort(date){
+  const today = dayKey(new Date(), userTZ);
+  const key = dayKey(date, userTZ);
+  const yesterday = dayKey(new Date(Date.now()-86400000), userTZ);
+  if(key === today) return "HOY";
+  if(key === yesterday) return "AYER";
+  return new Intl.DateTimeFormat('es-CO', {timeZone:userTZ, day:'2-digit', month:'short'}).format(date).toUpperCase();
+}
+function dateGroupLabel(date){
+  const today = dayKey(new Date(), userTZ);
+  const tomorrow = dayKey(new Date(Date.now()+86400000), userTZ);
+  const yesterday = dayKey(new Date(Date.now()-86400000), userTZ);
+  const key = dayKey(date, userTZ);
+  if(key === today) return "Hoy";
+  if(key === tomorrow) return "Mañana";
+  if(key === yesterday) return "Ayer";
+  return new Intl.DateTimeFormat('es-CO', {timeZone:userTZ, weekday:'long', day:'2-digit', month:'short'}).format(date);
+}
+function isToday(date){ return dayKey(date, userTZ) === dayKey(new Date(), userTZ); }
+
+// ==================== NEWS: FETCH ====================
 async function fetchFeed(feed){
   try{
     const res = await fetch(RSS2JSON + encodeURIComponent(feed.url));
     const data = await res.json();
     if(data.status !== "ok" || !data.items){ feedStatus[feed.name] = false; return []; }
     feedStatus[feed.name] = true;
-    return data.items.map(it => ({
-      source: feed.name,
-      title: (it.title || "").trim(),
-      link: it.link,
-      date: new Date(it.pubDate),
-    }));
-  }catch(e){
-    feedStatus[feed.name] = false;
-    return [];
-  }
+    return data.items.map(it => ({ source: feed.name, lang: feed.lang, title: (it.title || "").trim(), link: it.link, date: new Date(it.pubDate) }));
+  }catch(e){ feedStatus[feed.name] = false; return []; }
 }
-
-function isHighImpact(title){
-  const t = title.toLowerCase();
-  return IMPACT_KEYWORDS.some(k => t.includes(k));
+function isHighImpact(title){ const t = title.toLowerCase(); return IMPACT_KEYWORDS.some(k => t.includes(k)); }
+function getCurrencies(title){
+  const t = " " + title.toLowerCase() + " ";
+  const found = [];
+  for(const [code, keys] of Object.entries(CURRENCY_KEYWORDS)){
+    if(keys.some(k => t.includes(k))) found.push(code);
+  }
+  return found;
 }
 function timeAgo(date){
   const s = Math.floor((Date.now() - date.getTime())/1000);
@@ -405,9 +486,7 @@ function timeAgo(date){
   if(s < 86400) return Math.floor(s/3600)+"h";
   return Math.floor(s/86400)+"d";
 }
-function absTime(date){
-  return new Intl.DateTimeFormat('es-CO', {hour:'2-digit', minute:'2-digit', hour12:false, timeZone: userTZ}).format(date);
-}
+function absTime(date){ return new Intl.DateTimeFormat('es-CO', {hour:'2-digit', minute:'2-digit', hour12:false, timeZone: userTZ}).format(date); }
 function highlightTitle(title){
   let out = title;
   IMPACT_KEYWORDS.forEach(k => {
@@ -418,15 +497,16 @@ function highlightTitle(title){
 }
 
 function renderTicker(){
-  const impactItems = allItems.filter(i => isHighImpact(i.title)).slice(0, 12);
-  const list = impactItems.length ? impactItems : allItems.slice(0, 12);
-  const html = list.map(i => `<span class="ticker-item ${isHighImpact(i.title)?'':'no-impact'}"><span class="impact-dot"></span>${i.source}: ${i.title}</span>`).join("");
-  document.getElementById('ticker-track').innerHTML = html + html; // duplicado para loop continuo
+  const impactNews = allItems.filter(i => isHighImpact(i.title)).slice(0, 8).map(i => ({ text: `${i.source}: ${i.title}`, impact:true }));
+  const calSoon = allCalEvents.filter(e => e.impact === 'High' && (e.status === 'live' || e.status === 'soon')).slice(0,6)
+    .map(e => ({ text: `${e.country}: ${e.title} — ${e.status === 'live' ? 'AHORA' : 'en ' + Math.max(Math.round((e.date-Date.now())/60000),0) + ' min'}`, impact:true }));
+  const list = [...calSoon, ...impactNews];
+  const finalList = list.length ? list : allItems.slice(0,10).map(i => ({text:`${i.source}: ${i.title}`, impact:false}));
+  const html = finalList.map(i => `<span class="ticker-item ${i.impact?'':'no-impact'}"><span class="impact-dot"></span>${i.text}</span>`).join("");
+  document.getElementById('ticker-track').innerHTML = html + html;
 }
-
 function renderFeedHealth(){
-  const el = document.getElementById('feed-health');
-  el.innerHTML = FEEDS.map(f => {
+  document.getElementById('feed-health').innerHTML = FEEDS.map(f => {
     const ok = feedStatus[f.name];
     return `<div class="feed-row"><span><span class="dot ${ok===false?'fail':'ok'}"></span>${f.name}</span></div>`;
   }).join("");
@@ -435,24 +515,28 @@ function renderFeedHealth(){
 function render(){
   const wall = document.getElementById('wall');
   let items = allItems;
-  if(currentFilter === "impact"){
-    items = items.filter(i => isHighImpact(i.title));
-  }
+  if(filterImpact) items = items.filter(i => isHighImpact(i.title));
+  if(filterToday) items = items.filter(i => isToday(i.date));
+  if(filterCurrencies.size > 0) items = items.filter(i => getCurrencies(i.title).some(c => filterCurrencies.has(c)));
+  if(filterLang !== "all") items = items.filter(i => i.lang === filterLang);
+
   document.getElementById('stat-count').textContent = allItems.length;
   document.getElementById('stat-impact').textContent = allItems.filter(i => isHighImpact(i.title)).length;
 
-  if(items.length === 0){
-    wall.innerHTML = '<div class="empty">SIN NOTICIAS PARA ESTE FILTRO</div>';
-    return;
-  }
+  if(items.length === 0){ wall.innerHTML = '<div class="empty">SIN NOTICIAS PARA ESTE FILTRO</div>'; return; }
+
   wall.innerHTML = items.map(i => {
     const impact = isHighImpact(i.title);
+    const currencies = getCurrencies(i.title);
+    const dayBadge = dateBadgeShort(i.date);
     return `<a class="item" href="${i.link}" target="_blank" rel="noopener">
-      <div class="timecol">${timeAgo(i.date)}<span class="abs">${absTime(i.date)}</span></div>
+      <div class="timecol">${timeAgo(i.date)}<span class="abs">${absTime(i.date)}</span><span class="daybadge">${dayBadge}</span></div>
       <div class="body">
         <div class="meta">
           <span class="source">${i.source}</span>
+          <span class="lang-chip">${i.lang === 'es' ? 'ES' : 'EN'}</span>
           ${impact ? '<span class="impact">Alto impacto</span>' : ''}
+          ${currencies.map(c => `<span class="currency-chip">${c}</span>`).join('')}
         </div>
         <div class="headline">${highlightTitle(i.title)}</div>
       </div>
@@ -464,46 +548,174 @@ async function loadAll(){
   const results = await Promise.all(FEEDS.map(fetchFeed));
   let merged = results.flat();
   const seen = new Set();
-  merged = merged.filter(i => {
-    const key = i.title.toLowerCase().slice(0,80);
-    if(seen.has(key)) return false;
-    seen.add(key);
-    return true;
-  });
+  merged = merged.filter(i => { const key = i.title.toLowerCase().slice(0,80); if(seen.has(key)) return false; seen.add(key); return true; });
   merged.sort((a,b) => b.date - a.date);
-  allItems = merged.slice(0, 80);
+  allItems = merged.slice(0, 100);
   lastUpdate = new Date();
   countdown = REFRESH_SECONDS;
-  render();
+  render(); renderTicker(); renderFeedHealth();
+}
+
+// ==================== CALENDAR: FETCH ====================
+async function fetchCalendarRaw(url){
+  try{
+    const res = await fetch(url);
+    if(!res.ok) throw new Error("direct failed");
+    return await res.json();
+  }catch(e){
+    try{
+      const res2 = await fetch(CORS_PROXY + encodeURIComponent(url));
+      return await res2.json();
+    }catch(e2){ console.warn("Calendario no disponible:", e2); return null; }
+  }
+}
+function calStatus(date){
+  const diffMin = (date.getTime() - Date.now())/60000;
+  if(diffMin <= 0 && diffMin > -15) return 'live';
+  if(diffMin <= -15) return 'past';
+  if(diffMin > 0 && diffMin <= 60) return 'soon';
+  return 'upcoming';
+}
+async function loadCalendar(){
+  const wall = document.getElementById('cal-wall');
+  document.getElementById('cal-week-label').textContent = CAL_WEEK_LABELS[calWeek];
+  const raw = await fetchCalendarRaw(CALENDAR_URLS[calWeek]);
+  if(!raw){
+    allCalEvents = [];
+    wall.innerHTML = '<div class="empty">NO SE PUDO CARGAR EL CALENDARIO EN ESTE MOMENTO. INTENTA ACTUALIZAR EN UNOS MINUTOS.</div>';
+    calLastUpdate = new Date(); calCountdown = CAL_REFRESH_SECONDS;
+    return;
+  }
+  allCalEvents = raw.map(e => ({
+    title: e.title || e.Name || "Evento económico",
+    country: (e.country || e.currency || "").toUpperCase(),
+    date: new Date(e.date),
+    impact: e.impact || "Low",
+    forecast: e.forecast || "",
+    previous: e.previous || "",
+  })).filter(e => !isNaN(e.date.getTime()));
+  allCalEvents.forEach(e => e.status = calStatus(e.date));
+  allCalEvents.sort((a,b) => a.date - b.date);
+  calLastUpdate = new Date();
+  calCountdown = CAL_REFRESH_SECONDS;
+  renderCalendar();
   renderTicker();
-  renderFeedHealth();
 }
 
-function tick(){
-  countdown--;
-  if(countdown <= 0) loadAll();
-  document.getElementById('stat-refresh').textContent = Math.max(countdown,0)+"s";
-  document.getElementById('updated-ago').textContent = lastUpdate ? `hace ${timeAgo(lastUpdate)}` : '—';
-  document.querySelectorAll('.item .timecol').forEach((el, idx) => {
-    if(allItems[idx]) el.innerHTML = `${timeAgo(allItems[idx].date)}<span class="abs">${absTime(allItems[idx].date)}</span>`;
+function renderCalendar(){
+  const wall = document.getElementById('cal-wall');
+  allCalEvents.forEach(e => e.status = calStatus(e.date));
+  let events = allCalEvents;
+  if(calFilterStatus === 'past') events = events.filter(e => e.status === 'past');
+  if(calFilterStatus === 'upcoming') events = events.filter(e => e.status !== 'past');
+  if(calFilterCurrencies.size > 0) events = events.filter(e => calFilterCurrencies.has(e.country));
+
+  document.getElementById('cal-stat-count').textContent = allCalEvents.length;
+
+  if(events.length === 0){ wall.innerHTML = '<div class="empty">SIN EVENTOS PARA ESTE FILTRO</div>'; return; }
+
+  // encuentra el próximo evento (el primero en el futuro, sin filtrar) para marcarlo
+  const nextEvent = allCalEvents.find(e => e.status === 'soon' || e.status === 'upcoming');
+
+  let html = "";
+  let lastGroup = null;
+  let lastTimeStr = null;
+  events.forEach(e => {
+    const group = dateGroupLabel(e.date);
+    if(group !== lastGroup){ html += `<div class="cal-group-header">${group}</div>`; lastGroup = group; lastTimeStr = null; }
+    const impactClass = (e.impact||"").toLowerCase().includes("high") ? "high" : (e.impact||"").toLowerCase().includes("medium") ? "medium" : "low";
+    const timeStr = new Intl.DateTimeFormat('es-CO', {hour:'2-digit', minute:'2-digit', hour12:false, timeZone:userTZ}).format(e.date);
+    const showTime = timeStr !== lastTimeStr ? timeStr : "";
+    lastTimeStr = timeStr;
+    let badge = "";
+    if(e.status === 'live') badge = '<span class="cal-badge live">Ahora</span>';
+    else if(e.status === 'soon') badge = `<span class="cal-badge soon">En ${Math.max(Math.round((e.date-Date.now())/60000),0)} min</span>`;
+    const isNext = nextEvent && e === nextEvent;
+    html += `<div class="cal-row ${e.status==='live'?'cal-live':''} ${e.status==='past'?'cal-past':''}">
+      <div class="cal-time">${showTime}</div>
+      <div>${isNext ? '<div class="cal-next-marker"></div>' : ''}</div>
+      <div class="cal-currency">${e.country || '—'}</div>
+      <div class="cal-body">
+        <div style="display:flex; align-items:center; gap:8px;">
+          <span class="cal-impact-sq ${impactClass}"></span>
+          <span class="cal-title">${e.title}</span>
+        </div>
+        <div class="cal-sub">
+          ${e.forecast ? `<span>Previsto: ${e.forecast}</span>` : ''}
+          ${e.previous ? `<span>Anterior: ${e.previous}</span>` : ''}
+        </div>
+      </div>
+      ${badge}
+    </div>`;
   });
+  wall.innerHTML = html;
 }
 
-document.querySelectorAll('.filter-btn').forEach(btn => {
+// ==================== TICK LOOPS ====================
+function tick(){
+  countdown--; calCountdown--;
+  if(countdown <= 0) loadAll();
+  if(calCountdown <= 0) loadCalendar();
+  document.getElementById('stat-refresh').textContent = Math.max(countdown,0)+"s";
+  document.getElementById('cal-stat-refresh').textContent = Math.max(calCountdown,0)+"s";
+  document.getElementById('updated-ago').textContent = lastUpdate ? `hace ${timeAgo(lastUpdate)}` : '—';
+  document.querySelectorAll('#wall .item .timecol').forEach((el, idx) => {
+    if(allItems[idx]) el.innerHTML = `${timeAgo(allItems[idx].date)}<span class="abs">${absTime(allItems[idx].date)}</span><span class="daybadge">${dateBadgeShort(allItems[idx].date)}</span>`;
+  });
+  if(countdown % 20 === 0) renderCalendar();
+}
+
+// ==================== EVENTOS UI ====================
+document.getElementById('btn-impact').addEventListener('click', function(){ filterImpact = !filterImpact; this.classList.toggle('active', filterImpact); render(); });
+document.getElementById('btn-today').addEventListener('click', function(){ filterToday = !filterToday; this.classList.toggle('active', filterToday); render(); });
+document.querySelectorAll('#currency-chips [data-currency]').forEach(btn => {
   btn.addEventListener('click', () => {
-    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    currentFilter = btn.dataset.filter;
+    const c = btn.dataset.currency;
+    if(filterCurrencies.has(c)){ filterCurrencies.delete(c); btn.classList.remove('active'); }
+    else{ filterCurrencies.add(c); btn.classList.add('active'); }
     render();
   });
 });
+document.getElementById('lang-select').addEventListener('change', function(){ filterLang = this.value; render(); });
 document.getElementById('manual-refresh').addEventListener('click', loadAll);
 
+document.querySelectorAll('[data-cal-filter]').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('[data-cal-filter]').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    calFilterStatus = btn.dataset.calFilter;
+    renderCalendar();
+  });
+});
+document.querySelectorAll('#cal-currency-chips [data-currency]').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const c = btn.dataset.currency;
+    if(calFilterCurrencies.has(c)){ calFilterCurrencies.delete(c); btn.classList.remove('active'); }
+    else{ calFilterCurrencies.add(c); btn.classList.add('active'); }
+    renderCalendar();
+  });
+});
+document.getElementById('cal-refresh').addEventListener('click', loadCalendar);
+
+// navegación de semana (ciclo: semana pasada -> actual -> siguiente)
+const WEEK_ORDER = ['last','this','next'];
+document.getElementById('cal-prev-week').addEventListener('click', () => {
+  const idx = Math.max(WEEK_ORDER.indexOf(calWeek) - 1, 0);
+  calWeek = WEEK_ORDER[idx]; loadCalendar();
+});
+document.getElementById('cal-next-week').addEventListener('click', () => {
+  const idx = Math.min(WEEK_ORDER.indexOf(calWeek) + 1, WEEK_ORDER.length - 1);
+  calWeek = WEEK_ORDER[idx]; loadCalendar();
+});
+
+// ==================== INIT ====================
 initTheme();
+initTabs();
 populateTZSelect();
 updateClocks();
 setInterval(updateClocks, 1000);
 loadAll();
+loadCalendar();
 setInterval(tick, 1000);
 </script>
 </body>

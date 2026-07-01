@@ -13,7 +13,38 @@ Sitio estático y gratuito que muestra en tiempo real (casi) los titulares más 
 - **Selector de zona horaria**: en la parte superior puedes elegir tu zona horaria (o cualquier otra del mundo). Se guarda en el navegador, así que la próxima vez que entres ya queda en la que elegiste. Cada noticia muestra su hora relativa ("hace 5m") y su hora absoluta en la zona que elegiste.
 - Franja de sesiones (Asia/Londres/NY + tu hora) que se resalta sola según la sesión activa en tiempo real.
 - **Modo claro / oscuro**: botón 🌙/☀️ en la esquina superior. El oscuro es negro mate real (no azulado), el claro es fondo blanco. Se guarda tu preferencia en el navegador.
-- Logo con "NEWS" dentro del recuadro (antes decía "NQ"), y el nombre "NQ PROJECT" en Helvetica. El resto del sitio usa Inter, una tipografía sobria y profesional (parecida a la que usa la interfaz de Claude), reservando la fuente monoespaciada solo para relojes, horas y datos — para que se sienta serio, no como un sitio genérico de IA.
+- Logo con "NEWS" dentro del recuadro, y el nombre "NQ PROJECT" en Helvetica. El resto del sitio usa Inter (tipografía sobria, parecida a la de la interfaz de Claude), reservando la fuente monoespaciada solo para relojes, horas y datos.
+- Ya no muestra las sesiones de Asia/Londres/NY — solo tu hora actual, grande y clara, en la zona horaria que elijas.
+
+## Muro de noticias
+
+- Cada noticia muestra hora relativa ("hace 5m"), hora exacta en tu zona horaria, y una etiqueta **HOY / AYER / fecha**.
+- Filtro **"Solo hoy"**.
+- Filtro **por moneda, de selección múltiple** (USD, EUR, GBP, JPY, AUD, CAD, CHF, CNY): puedes activar varias a la vez — por ejemplo USD + EUR — y te muestra las noticias que mencionan cualquiera de las que elegiste. Detección por palabras clave en el titular, es heurística, no una etiqueta oficial del medio.
+- Filtro **de idiomas** ("Idiomas", esquina superior derecha, junto al indicador "En vivo"): Todos / Español / Inglés. Cada noticia trae su etiqueta ES/EN. Se agregó Investing.com en español como fuente en español; el resto de fuentes son en inglés.
+- Todos los filtros (impacto, fecha, monedas, idioma) se combinan entre sí.
+
+## Calendario económico (pestaña nueva)
+
+Rediseñado en formato de tabla intuitivo, inspirado en cómo Forex Factory presenta su calendario:
+
+- **Navegación de semana** (‹ Semana actual ›): puedes ver la semana pasada, la actual o la siguiente.
+- La hora **no se repite** en cada fila si varios eventos caen a la misma hora (igual que en Forex Factory) — solo aparece una vez por bloque de horario.
+- **Cuadro de color** por nivel de impacto (rojo=alto, ámbar=medio, gris=bajo) en vez de texto, más rápido de escanear de un vistazo.
+- Un **punto verde** marca cuál es el próximo evento que viene, sin importar el filtro que tengas activo.
+- Cada evento sigue mostrando **Previsto** y **Anterior** debajo del título (el detalle que ya teníamos).
+- Estado automático:
+  - **Ya pasó**: fila atenuada (gris).
+  - **Ahora**: fondo rojo pulsante durante los primeros 15 minutos después de la hora programada.
+  - **Próximo en 1 hora**: etiqueta ámbar tipo "En 42 min" que cuenta hacia atrás en tiempo real.
+- Filtros: Todos / Ya pasaron / Próximos, más filtro por moneda **de selección múltiple** (incluye NZD) — puedes marcar varias monedas a la vez.
+- Se agrupa por día (Hoy, Mañana, Ayer, o el nombre del día).
+
+### Sobre la fuente del calendario
+
+Usa el endpoint público `nfs.faireconomy.media/ff_calendar_thisweek.json`, el mismo que usan cientos de indicadores gratuitos de MetaTrader. Por eso el calendario se actualiza cada 5 minutos (no cada 2 como las noticias) — esa fuente limita a pocas peticiones cada 5 minutos por IP, y refrescar más seguido puede hacer que te bloqueen temporalmente. Si alguna vez ves "No se pudo cargar el calendario", espera unos minutos y dale a actualizar de nuevo.
+
+Como es una fuente de terceros no oficial, existe el riesgo de que en el futuro cambie de formato o deje de estar disponible. Si eso pasa, avísame y te ayudo a cambiarla por otra.
 
 ## Desplegar gratis en GitHub Pages (5 minutos)
 
@@ -38,7 +69,8 @@ const FEEDS = [
 - **Agregar una fuente**: agrega un objeto `{ name, url }` con cualquier RSS público.
 - **Quitar una fuente**: borra esa línea.
 - **Cambiar las palabras de "alto impacto"**: edita el array `IMPACT_KEYWORDS`.
-- **Cambiar la frecuencia de actualización**: cambia `REFRESH_SECONDS` (está en 120s).
+- **Cambiar la frecuencia de actualización**: cambia `REFRESH_SECONDS` (noticias) o `CAL_REFRESH_SECONDS` (calendario, no bajarlo de 300 para evitar bloqueos).
+- **Agregar o ajustar palabras clave de moneda**: edita el objeto `CURRENCY_KEYWORDS`.
 
 ## Limitaciones a tener en cuenta
 
